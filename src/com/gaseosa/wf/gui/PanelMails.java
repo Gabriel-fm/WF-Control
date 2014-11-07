@@ -252,11 +252,9 @@ public class PanelMails extends JPanel implements ActionListener, ItemListener,
 
         if (n == 0)
         {
-            // Comms.mailDelte(buzonElegido, direccionElegida);
+            Comms.mailDelte(buzonElegido, direccionElegida);
             System.out.println("Se va a borrar la dirección "
                     + direccionElegida);
-            System.out
-                    .println("Hay que descomentar la linea de borrado, y me he cargado web@fileaesir.com");
 
             refrescar();
         }
