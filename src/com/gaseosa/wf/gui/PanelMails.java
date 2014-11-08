@@ -22,6 +22,8 @@ package com.gaseosa.wf.gui;
 
 
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,6 +35,7 @@ import javax.swing.ListSelectionModel;
 import java.util.Vector;
 
 import com.gaseosa.wf.data.Comms;
+import com.gaseosa.wf.gui.dialog.UserAdd;
 import com.gaseosa.wf.models.Mail;
 
 import de.timroes.axmlrpc.XMLRPCException;
@@ -77,9 +80,9 @@ public class PanelMails extends JPanel implements ActionListener, ItemListener,
     private JComboBox<String>      dominios;
     private JList<Mail>            list;
     private DefaultListModel<Mail> lm;
-    private JButton btnCrear;
-    private JButton btnBorrar;
-    private JButton btnContrasea;
+    private JButton                btnCrear;
+    private JButton                btnBorrar;
+    private JButton                btnContrasea;
 
 
 
@@ -252,9 +255,16 @@ public class PanelMails extends JPanel implements ActionListener, ItemListener,
 
         if (n == 0)
         {
-            Comms.mailDelte(buzonElegido, direccionElegida);
-            System.out.println("Se va a borrar la dirección "
-                    + direccionElegida);
+            try
+            {
+                Comms.mailDelte(buzonElegido, direccionElegida);
+            }
+            catch (XMLRPCException e)
+            {
+                e.printStackTrace();
+            }
+            // System.out.println("Se va a borrar la dirección "
+            // + direccionElegida);
 
             refrescar();
         }
@@ -266,49 +276,18 @@ public class PanelMails extends JPanel implements ActionListener, ItemListener,
     private void dialogoCrear()
     {
 
-        if (creando == false)
+        String direc = "";
+        String buz = "";
+        String contra = "";
+
+        UserAdd dialogUserAdd = new UserAdd();
+        String res[] = dialogUserAdd.showDialog();
+        direc = res[0];
+        buz = res[1];
+        contra = res[2];
+
+        if (res[3].equals("ok"))
         {
-
-            creando = true;
-
-            JOptionPane
-                    .showMessageDialog(
-                            this,
-                            "Introduzca los datos de la nueva cuenta en los campos correspondientes,\n"
-                                    + "cuando los complete, vuelva a pulsar sobre el botón crear."
-                                    + "Para cancelar deje los campos en blanco.",
-                            "Añadir cuenta de correo",
-                            JOptionPane.INFORMATION_MESSAGE);
-            
-            txtAdress.setText("");
-            txtAdress.setEditable(true);
-            txtMailbox.setText("");
-            txtMailbox.setEditable(true);
-            btnBorrar.setEnabled(false);
-            btnContrasea.setEnabled(false);
-        }
-        else
-        {
-            creando = false;
-            
-            btnBorrar.setEnabled(true);
-            btnContrasea.setEnabled(true);
-
-            String contra = new String(pwdContra.getPassword());
-            String direc = txtAdress.getText();
-            String buz = txtMailbox.getText();
-            
-            if ( contra.equals("") || direc.equals(""))
-            {
-                refrescar();
-                return;
-            }
-
-            txtAdress.setText("");
-            txtMailbox.setText("");
-
-            txtAdress.setEditable(false);
-            txtMailbox.setEditable(false);
 
             int n = JOptionPane.showConfirmDialog(this,
                     "Se procede a crear la cuenta de dirección:\n\n" + direc
@@ -337,6 +316,7 @@ public class PanelMails extends JPanel implements ActionListener, ItemListener,
                 refrescar();
             }
         }
+
     }
 
 
@@ -382,6 +362,7 @@ public class PanelMails extends JPanel implements ActionListener, ItemListener,
         for (Mail m : v)
             if (m.direccion.substring(m.direccion.indexOf("@") + 1).equals(
                     domSelected)) lm.addElement(m);
+            else if (domSelected.equals("")) lm.addElement(m);
     }
 
 
@@ -390,6 +371,8 @@ public class PanelMails extends JPanel implements ActionListener, ItemListener,
     {
         try
         {
+            lm.removeAllElements();
+            dominios.removeAllItems();
             v = Comms.mailListAll();
 
             Vector<String> strDominios = new Vector<String>();
@@ -401,6 +384,7 @@ public class PanelMails extends JPanel implements ActionListener, ItemListener,
                 if (!strDominios.contains(aux)) strDominios.add(aux);
             }
 
+            dominios.addItem("");
             for (String i : strDominios)
             {
                 dominios.addItem(i);
@@ -442,4 +426,5 @@ public class PanelMails extends JPanel implements ActionListener, ItemListener,
         }
 
     }
+
 }
