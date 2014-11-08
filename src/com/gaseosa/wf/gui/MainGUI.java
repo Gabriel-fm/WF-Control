@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.gaseosa.wf.data.Comms;
+import com.gaseosa.wf.gui.dialog.Login;
 
 
 
@@ -85,6 +86,9 @@ public class MainGUI extends JFrame
      */
     public MainGUI()
     {
+        Login login = new Login();
+        login.showDialog();
+        
         setTitle("Panel de Control - Webfaction - " + Comms.getUserName());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(200, 300, 800, 300);
@@ -95,5 +99,5 @@ public class MainGUI extends JFrame
         PanelMails pm = new PanelMails();
         setContentPane(pm);
     }
-
+    
 }

@@ -1,3 +1,23 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ Copyright 2014 Gabriel Franco <gabriel.franco.martinez@gmail.com>
+ 
+ This file is part of WF Control Panel.
+ 
+ WF Control Panel is free software: you can redistribute it and/or 
+ modify it under the terms of the GNU General Public License as 
+ published by the Free Software Foundation, either version 3 of the 
+ License, or (at your option) any later version.
+ 
+ WF Control Panel is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with WF Control Panel.  If not, see 
+ <http://www.gnu.org/licenses/>.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 package com.gaseosa.wf.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -40,12 +60,11 @@ public class UserAdd extends JDialog implements ActionListener
         setModal(true);
         setTitle("Crear nuevo usuario");
         setResizable(false);
-        setBounds(100, 100, 350, 159);
+        setBounds(100, 100, 376, 159);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
-        BoxLayout bl = new BoxLayout(contentPanel, BoxLayout.Y_AXIS);
-        contentPanel.setLayout(bl);
+        contentPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 8));
         
         
         
@@ -60,7 +79,7 @@ public class UserAdd extends JDialog implements ActionListener
             {
                 textMail = new JTextField();
                 horizontalBox.add(textMail);
-                textMail.setColumns(10);
+                textMail.setColumns(18);
             }
         }
         {
@@ -74,7 +93,7 @@ public class UserAdd extends JDialog implements ActionListener
             {
                 textBuzon = new JTextField();
                 horizontalBox.add(textBuzon);
-                textBuzon.setColumns(10);
+                textBuzon.setColumns(18);
             }
         }
         {
@@ -86,6 +105,7 @@ public class UserAdd extends JDialog implements ActionListener
             }
             
             password = new JPasswordField();
+            password.setColumns(18);
             horizontalBox.add(password);
         }
         {

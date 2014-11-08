@@ -21,7 +21,8 @@ Uso
 ===
 
 Para utilizar la aplicación tan sólo hay que compilar el código y 
-ejecutar la clase login como punto de entrada.
+ejecutar la clase com.gaseosa.wf.gui.MainGUI login como punto de 
+entrada.
 
 **Para su correcta ejecución se necesita de** la librería 
 [aXMLRPC](https://github.com/timroes/aXMLRPC) incluida en el 
